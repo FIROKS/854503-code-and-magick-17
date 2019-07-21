@@ -54,6 +54,6 @@ window.renderStatistics = function(ctx, names, times) {
 
 // main code
 
-var canvasElement = document.querySelector('.demo').children[0];
-var ctx = canvasElement.getContext('2d');
+//var canvasElement = document.querySelector('.demo').children[0];
+//var ctx = canvasElement.getContext('2d');
 // console.log(canvasElement);
