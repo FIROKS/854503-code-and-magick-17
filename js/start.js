@@ -89,21 +89,17 @@ var findMaxTime = function(times) {
 var drawBars = function (ctx, names, times) {
   var x;
   var y;
-  var height;
-  debugger;
+	var height;
+	var color;
   var maxTime = findMaxTime(times);
 
   for (var i = 0; i < times.length; i++) {
     x = CLOUD_X + BAR_OFFSET_X + i * (BAR_DISTANCE + BAR_WIDTH);
     y = CLOUD_Y + CLOUD_HEIGHT - BAR_OFFSET_Y;
     height = BAR_MAX_HEIGHT * times[i] / maxTime;
+		color = names[i] === 'Вы' ? BAR_FIRST_COLOR : generateRandomColor();
 
-    if (names[i] === 'Вы') {
-      drawRect(ctx, x, y, BAR_WIDTH, -height, BAR_FIRST_COLOR);
-    } else {
-      drawRect(ctx, x, y, BAR_WIDTH, -height, generateRandomColor());
-    }
-
+    drawRect(ctx, x, y, BAR_WIDTH, -height, color);
     drawNameText(ctx, x, y, names[i]);
     drawTimeText(ctx, x, y - height, Math.round(times[i]));
   }
