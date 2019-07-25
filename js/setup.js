@@ -11,6 +11,8 @@ var COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)
 
 var EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
 
+var FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+
 var WIZARDS_LIMIT = 4;
 
 var generateWizard = function () {
@@ -64,48 +66,99 @@ var renderWizards = function (wizards) {
   });
 
   similarWizardListElement.appendChild(fragment);
-  showElement(similarWizardListContainerElement);
+  showSetupElement(similarWizardListContainerElement);
 };
 
-var showElement = function (element) {
+var showSetupElement = function (element) {
   element.classList.remove('hidden');
+
+  userWizardElementEye.addEventListener('click', onUserWizardElementEyeClick);
+  userWizardElementCoat.addEventListener('click', onUserWizardElementCoatClick);
+  userWizardElementFireball.addEventListener('click', onUserWizardElementFireballClick);
+
   setupOpenElement.removeEventListener('click', onSetupOpenElementClick);
   setupCloseElement.addEventListener('click', onSetupCloseElementClick);
+  setupElement.addEventListener('submit', onSetupElementSubmit);
 };
 
-var hideElement = function (element) {
+var hideSetupElement = function (element) {
   element.classList.add('hidden');
+
+  userWizardElementEye.removeEventListener('click', onUserWizardElementEyeClick);
+  userWizardElementCoat.removeEventListener('click', onUserWizardElementCoatClick);
+  userWizardElementFireball.removeEventListener('click', onUserWizardElementFireballClick);
+
   setupOpenElement.addEventListener('click', onSetupOpenElementClick);
 };
 
 var onSetupOpenElementClick = function (evt) {
   evt.preventDefault();
 
-  showElement(setupElement);
+  showSetupElement(setupElement);
 };
 
 var onSetupCloseElementClick = function (evt) {
   evt.preventDefault();
 
-  hideElement(setupElement);
+  hideSetupElement(setupElement);
 };
 
-var onSetupOpenElementFocus = function (evt) {
+var onUserWizardElementEyeClick = function (evt) {
   evt.preventDefault();
-  setupOpenElement.addEventListener('keydown', onSetupEnterPress);
+  changeEyeColor(userWizardElementEye);
 };
 
-var onSetupEnterPress = function (evt) {
+var onUserWizardElementCoatClick = function (evt) {
   evt.preventDefault();
 
-  if (evt.keyCode === ESC_KEYCODE) {
-    showElement(setupElement);
-  }
+  changeCoatColor(userWizardElementCoat);
+};
+
+var onUserWizardElementFireballClick = function (evt) {
+  evt.preventDefault();
+
+  changeFireballColor(userWizardElementFireball);
+};
+
+var onSetupElementSubmit = function (evt) {
+  evt.preventDefault();
+  formElement.submit();
+};
+
+var changeEyeColor = function (eye) {
+  var color;
+  var colorInputElement = setupElement.querySelector('input[name="fireball-color"]');
+  color = getRandomElement(EYES_COLOR);
+  eye.style.fill = color;
+  colorInputElement.value = color;
+};
+
+var changeCoatColor = function (coat) {
+  var color;
+  var colorInputElement = setupElement.querySelector('input[name="coat-color"]');
+  color = getRandomElement(COAT_COLOR);
+  coat.style.fill = color;
+  colorInputElement.value = color;
+};
+
+var changeFireballColor = function (fireball) {
+  var color;
+  var colorInputElement = setupElement.querySelector('input[name="fireball-color"]');
+  color = getRandomElement(FIREBALL_COLOR);
+  fireball.style.backgroundColor = color;
+  colorInputElement.value = color;
 };
 
 var setupElement = document.querySelector('.setup');
 var setupOpenElement = document.querySelector('.setup-open');
 var setupCloseElement = setupElement.querySelector('.setup-close');
+
+var formElement = document.querySelector('.setup-wizard-form');
+
+var userWizardElement = setupElement.querySelector('.setup-wizard');
+var userWizardElementEye = userWizardElement.querySelector('.wizard-eyes');
+var userWizardElementCoat = userWizardElement.querySelector('.wizard-coat');
+var userWizardElementFireball = setupElement.querySelector('.setup-fireball-wrap');
 
 var similarWizardListContainerElement = document.querySelector('.setup-similar');
 var similarWizardListElement = similarWizardListContainerElement.querySelector('.setup-similar-list');
@@ -117,4 +170,3 @@ var wizards = generateWizards();
 renderWizards(wizards);
 
 setupOpenElement.addEventListener('click', onSetupOpenElementClick);
-// setupOpenElement.addEventListener('focus', onSetupOpenElementFocus);
