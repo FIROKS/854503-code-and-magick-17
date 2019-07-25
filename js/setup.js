@@ -26,22 +26,53 @@ var generateWizards = function () {
   var wizards = [];
 
   for (var i = 0; i < WIZARDS_LIMIT; i++) {
-    wizards[i] = generateWizard();
+    wizards.push(generateWizard());
   }
   return wizards;
-}
+};
 
 var generateRandomNumber = function (to) {
   return Math.round(0 - 0.5 + Math.random() * (to - 0 + 1));
-}
+};
 
-var renderWizards = function(wizards) {
+var createWizard = function (wizard) {
+  var newWizardElement = wizardTemplateElement.cloneNode(true);
+  var newWizardElementName = newWizardElement.querySelector('.setup-similar-label');
+  var newWizardElementCoat = newWizardElement.querySelector('.wizard-coat');
+  var newWizardElementEyes = newWizardElement.querySelectorAll('.wizard-eyes');
 
-}
+  newWizardElementName.textContent = wizard.name.firstName + ' ' + wizard.name.lastName;
+  newWizardElementCoat.style.fill = wizard.coatColor;
+  newWizardElementEyes.forEach(function (eye) {
+    eye.style.fill = wizard.eyesColor;
+  });
+
+  return newWizardElement;
+};
+
+var renderWizards = function (wizards) {
+  var fragment = document.createDocumentFragment();
+
+  wizards.forEach(function (wizard) {
+    fragment.appendChild(createWizard(wizard));
+  });
+
+  similarWizardListElement.appendChild(fragment);
+  showElement(similarWizardListContainerElement);
+};
+
+var showElement = function (element) {
+  element.classList.remove('hidden');
+};
 
 var setupElement = document.querySelector('.setup');
-var wizardTemplateElement = document.querySelector('#similar-wizard-template').content.querySelector('#setup-similar-item');
+
+var similarWizardListContainerElement = document.querySelector('.setup-similar');
+var similarWizardListElement = similarWizardListContainerElement.querySelector('.setup-similar-list');
+
+var wizardTemplateElement = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+
 var wizards = generateWizards();
 
-
-setupElement.classList.remove('hidden');
+renderWizards(wizards);
+showElement(setupElement);
