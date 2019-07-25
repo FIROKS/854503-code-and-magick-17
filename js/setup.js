@@ -1,5 +1,8 @@
 'use strict';
 
+var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
+
 var FIRST_NAMES = ['Иван', 'Хуан', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 
 var LAST_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
@@ -66,9 +69,43 @@ var renderWizards = function (wizards) {
 
 var showElement = function (element) {
   element.classList.remove('hidden');
+  setupOpenElement.removeEventListener('click', onSetupOpenElementClick);
+  setupCloseElement.addEventListener('click', onSetupCloseElementClick);
+};
+
+var hideElement = function (element) {
+  element.classList.add('hidden');
+  setupOpenElement.addEventListener('click', onSetupOpenElementClick);
+};
+
+var onSetupOpenElementClick = function (evt) {
+  evt.preventDefault();
+
+  showElement(setupElement);
+};
+
+var onSetupCloseElementClick = function (evt) {
+  evt.preventDefault();
+
+  hideElement(setupElement);
+};
+
+var onSetupOpenElementFocus = function (evt) {
+  evt.preventDefault();
+  setupOpenElement.addEventListener('keydown', onSetupEnterPress);
+};
+
+var onSetupEnterPress = function (evt) {
+  evt.preventDefault();
+
+  if (evt.keyCode === ESC_KEYCODE) {
+    showElement(setupElement);
+  }
 };
 
 var setupElement = document.querySelector('.setup');
+var setupOpenElement = document.querySelector('.setup-open');
+var setupCloseElement = setupElement.querySelector('.setup-close');
 
 var similarWizardListContainerElement = document.querySelector('.setup-similar');
 var similarWizardListElement = similarWizardListContainerElement.querySelector('.setup-similar-list');
@@ -78,4 +115,6 @@ var wizardTemplateElement = document.querySelector('#similar-wizard-template').c
 var wizards = generateWizards();
 
 renderWizards(wizards);
-showElement(setupElement);
+
+setupOpenElement.addEventListener('click', onSetupOpenElementClick);
+// setupOpenElement.addEventListener('focus', onSetupOpenElementFocus);
