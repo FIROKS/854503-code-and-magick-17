@@ -13,12 +13,11 @@ var WIZARDS_LIMIT = 4;
 var generateWizard = function () {
   return {
     name: {
-      firstName: FIRST_NAMES[generateRandomNumber(FIRST_NAMES.length - 1)],
-      lastName: LAST_NAMES[generateRandomNumber(LAST_NAMES.length - 1)]
+      firstName: getRandomElement(FIRST_NAMES),
+      lastName: getRandomElement(LAST_NAMES)
     },
-    coatColor: COAT_COLOR[generateRandomNumber(COAT_COLOR.length - 1)],
-    eyesColor: EYES_COLOR[generateRandomNumber(EYES_COLOR.length - 1)],
-
+    coatColor: getRandomElement(COAT_COLOR),
+    eyesColor: getRandomElement(EYES_COLOR),
   };
 };
 
@@ -33,6 +32,10 @@ var generateWizards = function () {
 
 var generateRandomNumber = function (to) {
   return Math.round(0 - 0.5 + Math.random() * (to - 0 + 1));
+};
+
+var getRandomElement = function (valueList) {
+  return valueList[generateRandomNumber(FIRST_NAMES.length - 1)];
 };
 
 var createWizard = function (wizard) {
