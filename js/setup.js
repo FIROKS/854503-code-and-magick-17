@@ -72,21 +72,37 @@ var renderWizards = function (wizards) {
 var showSetupElement = function (element) {
   element.classList.remove('hidden');
 
+  setupOpenElement.removeEventListener('click', onSetupOpenElementClick);
+
+  document.addEventListener('keydown', onSetupElementEscPress);
+
   userWizardElementEye.addEventListener('click', onUserWizardElementEyeClick);
   userWizardElementCoat.addEventListener('click', onUserWizardElementCoatClick);
   userWizardElementFireball.addEventListener('click', onUserWizardElementFireballClick);
 
-  setupOpenElement.removeEventListener('click', onSetupOpenElementClick);
+
   setupCloseElement.addEventListener('click', onSetupCloseElementClick);
-  setupElement.addEventListener('submit', onSetupElementSubmit);
+  setupCloseElement.addEventListener('focus', onSetupCloseElementFocus);
+
+  setupSubmitElement.addEventListener('focus', onSetupSubmitElementFocus);
+  setupSubmitElement.addEventListener('click', onSetupSubmitElementClick);
 };
 
 var hideSetupElement = function (element) {
   element.classList.add('hidden');
 
+  document.removeEventListener('keydown', onSetupElementEscPress);
+
   userWizardElementEye.removeEventListener('click', onUserWizardElementEyeClick);
   userWizardElementCoat.removeEventListener('click', onUserWizardElementCoatClick);
   userWizardElementFireball.removeEventListener('click', onUserWizardElementFireballClick);
+
+  setupCloseElement.removeEventListener('focus', onSetupCloseElementFocus);
+  document.removeEventListener('keydown', onSetupCloseElementEnterPress);
+
+  setupSubmitElement.removeEventListener('focus', onSetupSubmitElementFocus);
+  setupSubmitElement.removeEventListener('click', onSetupSubmitElementClick);
+  document.removeEventListener('keydown', onSetupSubmitElementEnterPress);
 
   setupOpenElement.addEventListener('click', onSetupOpenElementClick);
 };
@@ -101,6 +117,14 @@ var onSetupCloseElementClick = function (evt) {
   evt.preventDefault();
 
   hideSetupElement(setupElement);
+};
+
+var onSetupElementEscPress = function (evt) {
+  evt.preventDefault();
+
+  if (evt.keyCode === ESC_KEYCODE) {
+    hideSetupElement(setupElement);
+  }
 };
 
 var onUserWizardElementEyeClick = function (evt) {
@@ -120,10 +144,41 @@ var onUserWizardElementFireballClick = function (evt) {
   changeFireballColor(userWizardElementFireball);
 };
 
-var onSetupElementSubmit = function (evt) {
+var onSetupCloseElementFocus = function () {
+  debugger;
+  document.addEventListener('keydown', onSetupCloseElementEnterPress);
+};
+
+var onSetupCloseElementEnterPress = function (evt) {
   evt.preventDefault();
+
+  if (evt.keyCode === ESC_KEYCODE) {
+    hideSetupElement();
+  }
+};
+
+var onSetupElementSubmit = function () {
   formElement.submit();
 };
+
+var onSetupSubmitElementFocus = function () {
+  document.addEventListener('keydown', onSetupSubmitElementEnterPress);
+};
+
+var onSetupSubmitElementClick = function (evt) {
+  evt.preventDefault();
+
+  onSetupElementSubmit();
+};
+
+var onSetupSubmitElementEnterPress = function (evt) {
+  evt.preventDefault();
+
+  if (evt.keyCode === ENTER_KEYCODE) {
+    onSetupElementSubmit();
+  }
+};
+
 
 var changeEyeColor = function (eye) {
   var color;
@@ -150,8 +205,9 @@ var changeFireballColor = function (fireball) {
 };
 
 var setupElement = document.querySelector('.setup');
-var setupOpenElement = document.querySelector('.setup-open');
+var setupOpenElement = document.querySelector('.setup-open-icon');
 var setupCloseElement = setupElement.querySelector('.setup-close');
+var setupSubmitElement = setupElement.querySelector('.setup-submit');
 
 var formElement = document.querySelector('.setup-wizard-form');
 
