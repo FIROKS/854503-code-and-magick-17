@@ -25,7 +25,7 @@ var TEXT_X = CLOUD_X + TEXT_OFFSET_X;
 var TEXT_Y = CLOUD_Y + TEXT_OFFSET_Y;
 
 var TEXT_COLOR = 'grba(0, 0, 0, 1)';
-var TEXT_CONGRATULATION =  'Ура вы победили!\nСписок результатов:';
+var TEXT_CONGRATULATION = 'Ура вы победили!\nСписок результатов:';
 var TEXT_FONT_SIZE = '16px';
 var TEXT_FONT_FAMILY = 'PT Mono';
 
@@ -41,42 +41,42 @@ var TIMES_OFFSET_Y = 10;
 
 var NAMES_OFFSET_Y = 20;
 
-var generateRandomColor = function() {
+var generateRandomColor = function () {
   return BAR_COLOR_TEMPLATE.replace('{alpha}', Math.random().toFixed(2));
 };
 
-var drawRect = function(ctx, x, y, width, heigth, color) {
+var drawRect = function (ctx, x, y, width, heigth, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, width, heigth);
-}
+};
 
-var drawText = function(ctx, x, y, text, fontFamily, fontSize, color) {
+var drawText = function (ctx, x, y, text, fontFamily, fontSize, color) {
   ctx.font = fontSize + ' ' + fontFamily;
   ctx.fillStyle = color;
   ctx.fillText(text, x, y);
 };
 
-var drawShadow = function(ctx) {
+var drawShadow = function (ctx) {
   drawRect(ctx, SHADOW_X, SHADOW_Y, SHADOW_WIDTH, SHADOW_HEIGHT, SHADOW_COLOR);
 };
 
-var drawCloud = function(ctx) {
+var drawCloud = function (ctx) {
   drawRect(ctx, CLOUD_X, CLOUD_Y, CLOUD_WIDTH, CLOUD_HEIGHT, CLOUD_COLOR);
 };
 
-var drawCongratulationText = function(ctx) {
+var drawCongratulationText = function (ctx) {
   drawText(ctx, TEXT_X, TEXT_Y, TEXT_CONGRATULATION, TEXT_FONT_FAMILY, TEXT_FONT_SIZE, TEXT_COLOR);
 };
 
-var drawTimeText = function(ctx, x, y, text) {
+var drawTimeText = function (ctx, x, y, text) {
   drawText(ctx, x, y - TIMES_OFFSET_Y, text, TEXT_FONT_FAMILY, TEXT_FONT_SIZE, TEXT_COLOR);
 };
 
-var drawNameText = function(ctx, x, y, text) {
+var drawNameText = function (ctx, x, y, text) {
   drawText(ctx, x, y + NAMES_OFFSET_Y, text, TEXT_FONT_FAMILY, TEXT_FONT_SIZE, TEXT_COLOR);
-}
+};
 
-var findMaxTime = function(times) {
+var findMaxTime = function (times) {
   var max = times[0];
   for (var i = 1; i < times.length; i++) {
     if (times[i] > max) {
@@ -84,28 +84,28 @@ var findMaxTime = function(times) {
     }
   }
   return max;
-}
+};
 
 var drawBars = function (ctx, names, times) {
   var x;
   var y;
-	var height;
-	var color;
+  var height;
+  var color;
   var maxTime = findMaxTime(times);
 
   for (var i = 0; i < times.length; i++) {
     x = CLOUD_X + BAR_OFFSET_X + i * (BAR_DISTANCE + BAR_WIDTH);
     y = CLOUD_Y + CLOUD_HEIGHT - BAR_OFFSET_Y;
     height = BAR_MAX_HEIGHT * times[i] / maxTime;
-		color = names[i] === 'Вы' ? BAR_FIRST_COLOR : generateRandomColor();
+    color = names[i] === 'Вы' ? BAR_FIRST_COLOR : generateRandomColor();
 
     drawRect(ctx, x, y, BAR_WIDTH, -height, color);
     drawNameText(ctx, x, y, names[i]);
     drawTimeText(ctx, x, y - height, Math.round(times[i]));
   }
-}
+};
 
-window.renderStatistics = function(ctx, names, times) {
+window.renderStatistics = function (ctx, names, times) {
 
   drawShadow(ctx);
   drawCloud(ctx);
