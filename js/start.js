@@ -18,14 +18,15 @@ var SHADOW_WIDTH = 420;
 var SHADOW_HEIGHT = 270;
 var SHADOW_COLOR = 'rgba(0, 0, 0, 0.7)';
 
-var TEXT_OFFSET_X = 20;
-var TEXT_OFFSET_Y = 20;
+var TEXT_OFFSET_X = 30;
+var TEXT_OFFSET_Y = 30;
+var TEXT_LINE_OFFSET_Y = 20;
 
 var TEXT_X = CLOUD_X + TEXT_OFFSET_X;
 var TEXT_Y = CLOUD_Y + TEXT_OFFSET_Y;
 
-var TEXT_COLOR = 'grba(0, 0, 0, 1)';
-var TEXT_CONGRATULATION = 'Ура вы победили!\nСписок результатов:';
+var TEXT_COLOR = 'rgba(0, 0, 0, 1)';
+var TEXT_CONGRATULATION = ['Ура вы победили!', 'Список результатов:'];
 var TEXT_FONT_SIZE = '16px';
 var TEXT_FONT_FAMILY = 'PT Mono';
 
@@ -65,7 +66,8 @@ var drawCloud = function (ctx) {
 };
 
 var drawCongratulationText = function (ctx) {
-  drawText(ctx, TEXT_X, TEXT_Y, TEXT_CONGRATULATION, TEXT_FONT_FAMILY, TEXT_FONT_SIZE, TEXT_COLOR);
+  drawText(ctx, TEXT_X, TEXT_Y, TEXT_CONGRATULATION[0], TEXT_FONT_FAMILY, TEXT_FONT_SIZE, TEXT_COLOR);
+  drawText(ctx, TEXT_X, TEXT_Y + TEXT_LINE_OFFSET_Y, TEXT_CONGRATULATION[1], TEXT_FONT_FAMILY, TEXT_FONT_SIZE, TEXT_COLOR);
 };
 
 var drawTimeText = function (ctx, x, y, text) {
