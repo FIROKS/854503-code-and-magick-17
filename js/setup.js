@@ -105,8 +105,6 @@ var hideSetupElement = function () {
 
   setupCloseElement.addEventListener('click', onSetupCloseElementClick);
   setupCloseElement.removeEventListener('focus', onSetupCloseElementFocus);
-
-  document.removeEventListener('keydown', onSetupElementEscPress);
   document.removeEventListener('keydown', onSetupCloseElementEnterPress);
 
   setupSubmitElement.removeEventListener('focus', onSetupSubmitElementFocus);
@@ -216,73 +214,10 @@ var onSetupOpenElementEnterPress = function (evt) {
   }
 };
 
-var onUserWizardCoatElementClick = function (evt) {
-  evt.preventDefault();
-
-  changeElementColor(userWizardCoatElement, COAT_COLOR, SELECTOR_COAT_COLOR_INPUT);
-};
-
-var onUserWizardFireballElementClick = function (evt) {
-  evt.preventDefault();
-
-  changeFireballColor(userWizardFireballElement);
-};
-
-var onSetupCloseElementFocus = function () {
-  document.addEventListener('keydown', onSetupCloseElementEnterPress);
-};
-
-var onSetupCloseElementEnterPress = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    evt.preventDefault();
-
-    hideSetupElement();
-  }
-};
-
-var onSetupElementSubmit = function () {
-  formElement.submit();
-  hideSetupElement();
-};
-
-var onSetupSubmitElementFocus = function () {
-  document.addEventListener('keydown', onSetupSubmitElementEnterPress);
-};
-
-var onSetupSubmitElementClick = function (evt) {
-  evt.preventDefault();
-
-  onSetupElementSubmit();
-};
-
-var onSetupSubmitElementEnterPress = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    evt.preventDefault();
-
-    onSetupElementSubmit();
-  }
-};
-
-var onSetupOpenElementFocus = function () {
-  document.addEventListener('keydown', onSetupOpenElementEnterPress);
-};
-
-var onSetupOpenElementEnterPress = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    evt.preventDefault();
-    document.removeEventListener('keydown', onSetupOpenElementEnterPress);
-
-    showSetupElement();
-  }
-};
-
-
 var setupElement = document.querySelector('.setup');
 var setupOpenElement = document.querySelector('.setup-open-icon');
 var setupCloseElement = setupElement.querySelector('.setup-close');
 var setupSubmitElement = setupElement.querySelector('.setup-submit');
-
-var formElement = setupElement.querySelector('.setup-wizard-form');
 
 var userWizardElement = setupElement.querySelector('.setup-wizard');
 var userWizardEyeElement = userWizardElement.querySelector('.wizard-eyes');
