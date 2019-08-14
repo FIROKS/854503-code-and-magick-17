@@ -64,11 +64,168 @@ var renderWizards = function (wizards) {
   showElement(similarWizardListContainerElement);
 };
 
+<<<<<<< Updated upstream
 var showElement = function (element) {
   element.classList.remove('hidden');
+=======
+var showSetupElement = function () {
+  setupElement.classList.remove('hidden');
+
+  setupOpenElement.removeEventListener('click', onSetupOpenElementClick);
+  setupOpenElement.removeEventListener('focus', onSetupOpenElementFocus);
+
+  document.addEventListener('keydown', onSetupElementEscPress);
+
+  userWizardEyeElement.addEventListener('click', onUserWizardEyeElementClick);
+  userWizardCoatElement.addEventListener('click', onUserWizardCoatElementClick);
+  userWizardFireballElement.addEventListener('click', onUserWizardFireballElementClick);
+
+
+  setupCloseElement.addEventListener('click', onSetupCloseElementClick);
+  setupCloseElement.addEventListener('focus', onSetupCloseElementFocus);
+
+  setupSubmitElement.addEventListener('focus', onSetupSubmitElementFocus);
+  setupSubmitElement.addEventListener('click', onSetupSubmitElementClick);
 };
 
+var hideSetupElement = function () {
+  setupElement.classList.add('hidden');
+
+  setupOpenElement.addEventListener('click', onSetupOpenElementClick);
+  setupOpenElement.addEventListener('focus', onSetupOpenElementFocus);
+
+  userWizardEyeElement.removeEventListener('click', onUserWizardEyeElementClick);
+  userWizardCoatElement.removeEventListener('click', onUserWizardCoatElementClick);
+  userWizardFireballElement.removeEventListener('click', onUserWizardFireballElementClick);
+
+  setupCloseElement.addEventListener('click', onSetupCloseElementClick);
+  setupCloseElement.removeEventListener('focus', onSetupCloseElementFocus);
+
+  document.removeEventListener('keydown', onSetupElementEscPress);
+  document.removeEventListener('keydown', onSetupCloseElementEnterPress);
+
+  setupSubmitElement.removeEventListener('focus', onSetupSubmitElementFocus);
+  setupSubmitElement.removeEventListener('click', onSetupSubmitElementClick);
+  document.removeEventListener('keydown', onSetupSubmitElementEnterPress);
+};
+
+var changeFireballColor = function (fireball) {
+  var color = getRandomElement(FIREBALL_COLOR);
+  var colorInputElement = setupElement.querySelector('input[name="fireball-color"]');
+  fireball.style.backgroundColor = color;
+  colorInputElement.value = color;
+};
+
+var changeElementColor = function (element, values, input) {
+  var color = getRandomElement(values);
+  var colorInputElement = setupElement.querySelector(input);
+
+  element.style.fill = color;
+  colorInputElement.value = color;
+};
+
+var onSetupOpenElementClick = function (evt) {
+  evt.preventDefault();
+
+  showSetupElement();
+};
+
+var onSetupCloseElementClick = function (evt) {
+  evt.preventDefault();
+
+  hideSetupElement();
+};
+
+var onSetupElementEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    evt.preventDefault();
+
+    hideSetupElement();
+  }
+};
+
+var onUserWizardEyeElementClick = function (evt) {
+  evt.preventDefault();
+
+  changeElementColor(userWizardEyeElement, EYES_COLOR, SELECTOR_EYE_COLOR_INPUT);
+};
+
+var onUserWizardCoatElementClick = function (evt) {
+  evt.preventDefault();
+
+  changeElementColor(userWizardCoatElement, COAT_COLOR, SELECTOR_COAT_COLOR_INPUT);
+};
+
+var onUserWizardFireballElementClick = function (evt) {
+  evt.preventDefault();
+
+  changeFireballColor(userWizardFireballElement);
+};
+
+var onSetupCloseElementFocus = function () {
+  document.addEventListener('keydown', onSetupCloseElementEnterPress);
+};
+
+var onSetupCloseElementEnterPress = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    evt.preventDefault();
+
+    hideSetupElement();
+  }
+};
+
+var onSetupElementSubmit = function () {
+  formElement.submit();
+  hideSetupElement();
+};
+
+var onSetupSubmitElementFocus = function () {
+  document.addEventListener('keydown', onSetupSubmitElementEnterPress);
+};
+
+var onSetupSubmitElementClick = function (evt) {
+  evt.preventDefault();
+
+  onSetupElementSubmit();
+};
+
+var onSetupSubmitElementEnterPress = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    evt.preventDefault();
+
+    onSetupElementSubmit();
+  }
+};
+
+var onSetupOpenElementFocus = function () {
+  document.addEventListener('keydown', onSetupOpenElementEnterPress);
+};
+
+var onSetupOpenElementEnterPress = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    evt.preventDefault();
+    document.removeEventListener('keydown', onSetupOpenElementEnterPress);
+
+    showSetupElement();
+  }
+>>>>>>> Stashed changes
+};
+
+
 var setupElement = document.querySelector('.setup');
+<<<<<<< Updated upstream
+=======
+var setupOpenElement = document.querySelector('.setup-open-icon');
+var setupCloseElement = setupElement.querySelector('.setup-close');
+var setupSubmitElement = setupElement.querySelector('.setup-submit');
+
+var formElement = setupElement.querySelector('.setup-wizard-form');
+
+var userWizardElement = setupElement.querySelector('.setup-wizard');
+var userWizardEyeElement = userWizardElement.querySelector('.wizard-eyes');
+var userWizardCoatElement = userWizardElement.querySelector('.wizard-coat');
+var userWizardFireballElement = setupElement.querySelector('.setup-fireball-wrap');
+>>>>>>> Stashed changes
 
 var similarWizardListContainerElement = document.querySelector('.setup-similar');
 var similarWizardListElement = similarWizardListContainerElement.querySelector('.setup-similar-list');
