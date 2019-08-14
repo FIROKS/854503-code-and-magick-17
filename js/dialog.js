@@ -4,7 +4,7 @@ var onUploadElementMouseDown = function (evtMouseDown) {
   evtMouseDown.preventDefault();
   var dragged = false;
 
-  var startCoordinate = {
+  var startCoordinates = {
     x: evtMouseDown.clientX,
     y: evtMouseDown.clientY
   };
@@ -15,11 +15,11 @@ var onUploadElementMouseDown = function (evtMouseDown) {
     dragged = true;
 
     var shift = {
-      x: startCoordinate.x - evtMouseMove.clientX,
-      y: startCoordinate.y - evtMouseMove.clientY
+      x: startCoordinates.x - evtMouseMove.clientX,
+      y: startCoordinates.y - evtMouseMove.clientY
     };
 
-    startCoordinate = {
+    startCoordinates = {
       x: evtMouseMove.clientX,
       y: evtMouseMove.clientY
     };
@@ -53,3 +53,9 @@ var setupElement = document.querySelector('.setup');
 var uploadElement = setupElement.querySelector('.upload');
 
 uploadElement.addEventListener('mousedown', onUploadElementMouseDown);
+
+window.dialog = {
+  setDefaultCoordinates: function () {
+    setupElement.removeAttribute('style');
+  }
+};

@@ -89,6 +89,8 @@ var showSetupElement = function () {
 
   setupSubmitElement.addEventListener('focus', onSetupSubmitElementFocus);
   setupSubmitElement.addEventListener('click', onSetupSubmitElementClick);
+
+  window.dialog.setDefaultCoordinates();
 };
 
 var hideSetupElement = function () {
